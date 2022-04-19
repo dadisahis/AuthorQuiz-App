@@ -42,7 +42,7 @@
 }
 
 .turn {
-  padding-top: 20px;
+  padding-top: 40px;
   padding-bottom: 20px;
 }
 
@@ -51,10 +51,17 @@
 }
 
 .answer{
-  background-color: #f0f7fd;
+  background-color: #cfd9e2;
   border-color: #D0F3E0;
   margin-bottom: 20px;
   padding: 15px 30px 15px 15px;
   border-left: 5px solid #282c34;
-  cursor: pointer;
+  cursor: pointer; 
+}
+.answer:hover{
+  background-color: #3c9fbb;
+}
+
+.jumbotron {
+  background-color: #cfd9e2;
 }
