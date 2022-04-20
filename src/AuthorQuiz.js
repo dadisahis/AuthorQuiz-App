@@ -3,6 +3,7 @@ import './App.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import React,{ Component } from 'react';
 import PropTypes from 'prop-types';
+import { Link } from 'react-router-dom';
 
 function Hero(){
   return (
@@ -56,8 +57,15 @@ Turn.propTypes= {
   highlight: PropTypes.string.isRequired
 }
 
-function Continue(){
-  return (<div/>)
+function Continue({show,onContinue}){
+  return (
+  <div className='row continue'>
+    {
+      show ? <div className='col-11 offset-10'>
+          <button className='btn btn-primary btn-lg float-roght' onClick={onContinue}>Continue</button>
+      </div>
+    : null }
+  </div>)
 }
 
 function Footer(){
@@ -70,12 +78,13 @@ function Footer(){
   )
 }
 
-function AuthorQuiz({turnData,highlight,onAnswerSelected}) {
+function AuthorQuiz({turnData,highlight,onAnswerSelected,onContinue}) {
     return (
       <div className="container-fluid">
         <Hero />
         <Turn {...turnData} highlight={highlight}  onAnswerSelected={onAnswerSelected}/>
-        <Continue />
+        <p className='col-11 offset-1'><Link to="/addAuthor">Add an author</Link></p>
+        <Continue show={highlight==='correct'} onContinue={onContinue} />
         <Footer />
       </div>
     );

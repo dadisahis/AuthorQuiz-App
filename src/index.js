@@ -1,9 +1,12 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
+import { BrowserRouter,Route,Routes,useNavigate} from 'react-router-dom';
 import './index.css';
 import AuthorQuiz from './AuthorQuiz';
+import AddAuthorForm from './AddAuthorForm';
 import {shuffle, sample} from 'underscore';
 import reportWebVitals from './reportWebVitals';
+
 
 const authors = [
   {
@@ -62,10 +65,13 @@ function getTurnData(authors){
   }
 }
 
-const state = {
-  turnData : getTurnData(authors),
-  highlight: ''
+function resetState(){
+  return {
+    turnData : getTurnData(authors),
+    highlight: ''
+  }
 }
+let state= resetState();
 function onAnswerSelected(answer){
   console.log(answer);
   const isCorrect = state.turnData.authors.books.some((book) => book===answer);
@@ -73,11 +79,32 @@ function onAnswerSelected(answer){
   render();
 }
 
+function AuthorWrapper(){
+  const navigate = useNavigate();
+  return <AddAuthorForm onAddAuthor={(author) => {
+    authors.push(author);
+    navigate('/')
+  }} />
+}
+
+
+function App(){
+  return <AuthorQuiz {...state} onAnswerSelected={onAnswerSelected} 
+    onContinue={() => {
+      state=resetState();
+      render();
+    }}
+  />
+}
+
 function render(){
   ReactDOM.render(
-    <React.StrictMode>
-      <AuthorQuiz {...state} onAnswerSelected={onAnswerSelected} />
-    </React.StrictMode>,
+      <BrowserRouter>
+        <Routes>
+          <Route exact path="/" element={ <App/>} />
+          <Route path="/addAuthor" element={ <AuthorWrapper/>} />
+        </Routes>
+      </BrowserRouter>,
     document.getElementById('root')
   );
   
